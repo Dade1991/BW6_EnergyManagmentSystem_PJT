@@ -42,7 +42,8 @@ public class Utente {
                   String email,
                   String password,
                   String nome,
-                  String cognome
+                  String cognome,
+                  Ruolo ruolo,
     ) {
         this.username = username;
         this.email = email;
