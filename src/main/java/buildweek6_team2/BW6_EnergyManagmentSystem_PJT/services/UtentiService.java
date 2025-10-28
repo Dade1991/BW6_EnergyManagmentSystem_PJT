@@ -26,15 +26,16 @@ public class UtentiService {
 
     // FIND ALL
 
-    public Page<Utente> findAll(int pageNumber, int pageSize String sortBy) {
+    public Page<Utente> findAllUtenti(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
+        sortBy= "nome";
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.utenteRepository.findAll(pageable);
     }
 
     // SAVE
 
-    public Utente save(UtenteDTO payload) {
+    public Utente saveUtente(UtenteDTO payload) {
         this.utenteRepository.findByEmail(payload.email()).ifPresent(utente -> {
             throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
         }
