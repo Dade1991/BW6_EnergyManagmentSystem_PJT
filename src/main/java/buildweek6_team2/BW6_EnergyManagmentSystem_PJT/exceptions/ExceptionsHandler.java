@@ -1,7 +1,8 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions;
 
-import antimomandorino.u5w3fd3.payloads.ErrorsDTO;
-import antimomandorino.u5w3fd3.payloads.ErrorsWithListDTO;
+
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ErrorsDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ErrorsWithListDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
