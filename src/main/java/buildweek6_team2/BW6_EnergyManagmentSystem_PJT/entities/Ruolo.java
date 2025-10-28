@@ -2,10 +2,7 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoRuolo;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.UUID;
 public class Ruolo {
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private UUID ruoloId;
     @Enumerated(EnumType.STRING)
     private TipoRuolo tipoRuolo;

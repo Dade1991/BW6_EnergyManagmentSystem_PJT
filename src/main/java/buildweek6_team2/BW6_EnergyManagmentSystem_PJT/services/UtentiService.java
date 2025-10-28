@@ -3,6 +3,7 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.UtenteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
