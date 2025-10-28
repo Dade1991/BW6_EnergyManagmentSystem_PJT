@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -46,9 +48,9 @@ public class JWTFilter extends OncePerRequestFilter {
         UUID idUtente = jwtTools.exctractIdFromToken(accessToken);
         Utente utenteFound = this.utentiService.findUtenteById(idUtente);
         // 2. Associazione dell'utente al Security Context
-        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteFound, null, utenteFound.)
+        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteFound, null, utenteFound.getAuthorities());
         // 3. Aggiornamento del Security Context associando ad esso l'utente corrente e il suo ruolo
-
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
     }
 
