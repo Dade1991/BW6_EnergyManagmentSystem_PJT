@@ -1,8 +1,10 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.ClientiRepository;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Clienti;
@@ -31,11 +33,11 @@ public class ClientiService {
     }
 
     @Transactional
-    public Clienti update(Long id, Clienti cliente) {
+    public Clienti update(UUID id, Clienti cliente) {
         if (!clientiRepository.existsById(id)) {
             throw new RuntimeException("Cliente non trovato: " + id);
         }
-        cliente.setId(id);
+        cliente.setIdCliente(id);
         return clientiRepository.save(cliente);
     }
 
@@ -45,5 +47,13 @@ public class ClientiService {
             throw new RuntimeException("Cliente non trovato: " + id);
         }
         clientiRepository.deleteById(id);
+    }
+
+    public Clienti save(@Valid Clienti cliente) {
+        return cliente;
+    }
+
+    public boolean deleteById(Long id) {
+        return false;
     }
 }

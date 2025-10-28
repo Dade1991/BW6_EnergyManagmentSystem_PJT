@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/clienti")
-public class ClientiController {
+public class ClientiContoller {
 
     private final ClientiService clientiService;
 
     @Autowired
-    public ClientiController(ClientiService clientiService) {
+    public ClientiContoller(ClientiService clientiService) {
         this.clientiService = clientiService;
     }
 
@@ -28,7 +29,7 @@ public class ClientiController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Clienti> getById(@PathVariable Long id) {
-        Optional<Clienti> opt = clientiService.findById(id);
+        Optional<Clienti> opt = Optional.ofNullable(clientiService.findById(id));
         return opt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -40,8 +41,8 @@ public class ClientiController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Clienti> update(@PathVariable Long id, @Valid @RequestBody Clienti cliente) {
-        Optional<Clienti> updated = clientiService.update(id, cliente);
+    public ResponseEntity<Clienti> update(@PathVariable UUID id, @Valid @RequestBody Clienti cliente) {
+        Optional<Clienti> updated = Optional.ofNullable(clientiService.update(id, cliente));
         return updated.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

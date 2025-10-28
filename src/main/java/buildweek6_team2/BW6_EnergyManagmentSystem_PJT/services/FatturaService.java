@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -11,6 +12,7 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fatture;
 public class FatturaService {
 
     private final FatturaRepository fatturaRepository;
+    private Long idFattura;
 
     public FatturaService(FatturaRepository fatturaRepository) {
         this.fatturaRepository = fatturaRepository;
@@ -35,7 +37,7 @@ public class FatturaService {
         if (!fatturaRepository.existsById(id)) {
             throw new RuntimeException("Fattura non trovata: " + id);
         }
-        fattura.setId(id);
+        fattura.setIdFattura(idFattura);
         return fatturaRepository.save(fattura);
     }
 
@@ -45,5 +47,13 @@ public class FatturaService {
             throw new RuntimeException("Fattura non trovata: " + id);
         }
         fatturaRepository.deleteById(id);
+    }
+
+    public Fatture save(@Valid Fatture fattura) {
+        return fattura;
+    }
+
+    public boolean deleteById(Long id) {
+        return false;
     }
 }
