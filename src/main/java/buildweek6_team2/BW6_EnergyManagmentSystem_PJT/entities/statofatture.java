@@ -1,41 +1,38 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.StatoFatturaType;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "statofatture")
-public class statofatture {
+@Table(name = "stato_fatture")
+public class StatoFattura {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idstatofatture")
-    private Long idstatofatture;
-    
-    @Column(name = "stato")
-    private String stato;
-    
-    // Constructors
-    public statofatture() {
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_stato_fattura")
+    private UUID idStatoFattura;
+
+    @Enumerated(EnumType.STRING)
+    private StatoFatturaType stato;
+
+    public StatoFattura() {
     }
-    
-    public statofatture(Long idstatofatture, String stato) {
-        this.idstatofatture = idstatofatture;
+
+    public StatoFattura(StatoFatturaType stato) {
         this.stato = stato;
     }
-    
-    // Getters and Setters
-    public Long getIdstatofatture() {
-        return idstatofatture;
+
+    public UUID getIdStatoFattura() {
+        return idStatoFattura;
     }
-    
-    public void setIdstatofatture(Long idstatofatture) {
-        this.idstatofatture = idstatofatture;
-    }
-    
-    public String getStato() {
+
+
+    public StatoFatturaType getStato() {
         return stato;
     }
-    
-    public void setStato(String stato) {
+
+    public void setStato(StatoFatturaType stato) {
         this.stato = stato;
     }
 }
