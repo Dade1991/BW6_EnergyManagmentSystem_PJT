@@ -1,22 +1,30 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.security;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.UtentiService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
     private JWTTools jwtTools;
+
+    @Autowired
+    private UtentiService utentiService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -35,9 +43,10 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //---------------------------------- [AUTORIZZAZIONE] ----------------------------------
         // 1. Ricerca dell'utente nel DB
-
+        UUID idUtente = jwtTools.exctractIdFromToken(accessToken);
+        Utente utenteFound = this.utentiService.findUtenteById(idUtente);
         // 2. Associazione dell'utente al Security Context
-
+        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteFound, null, utenteFound.)
         // 3. Aggiornamento del Security Context associando ad esso l'utente corrente e il suo ruolo
 
         filterChain.doFilter(request,response);

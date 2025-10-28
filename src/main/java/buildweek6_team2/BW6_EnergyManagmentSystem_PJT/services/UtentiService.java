@@ -1,6 +1,8 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -29,7 +33,7 @@ public class UtentiService {
 
     // SAVE
 
-    public Utente save(NewUtenteDTO payload) {
+    public Utente save(UtenteDTO payload) {
         this.utenteRepository.findByEmail(payload.email()).ifPresent(utente -> {
             throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
         }
@@ -37,5 +41,9 @@ public class UtentiService {
 
         
 
+    }
+
+    public Utente findUtenteById(UUID utenteId){
+        return this.utenteRepository.findById(utenteId).orElseThrow(() -> new IdNotFoundException("L'utente con ID: " + utenteId + " non è stato trovato"))
     }
 }

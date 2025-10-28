@@ -1,18 +1,18 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions;
 
-import antimomandorino.u5w3fd3.payloads.ErrorsDTO;
-import antimomandorino.u5w3fd3.payloads.ErrorsWithListDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ErrorsDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ErrorsWithListDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-
-public class ExceptionsHandler {
+public class ExceptionsHandler  {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -50,5 +50,11 @@ public class ExceptionsHandler {
     public ErrorsDTO handleServerError(Exception ex) {
         ex.printStackTrace();
         return new ErrorsDTO("C'è stato un errore generico, giuro che lo risolveremo presto!", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(IdNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorsDTO handleIdNotFoundException(IdNotFoundException ex){
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 }
