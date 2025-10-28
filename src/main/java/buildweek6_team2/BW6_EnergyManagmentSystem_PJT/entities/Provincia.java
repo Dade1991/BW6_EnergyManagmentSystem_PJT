@@ -1,66 +1,73 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table(name = "provincia")
+@Table(name = "province")
 public class Provincia {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_provincia")
-    private Long idProvincia;
-    
+    private UUID idProvincia;
+
     @Column(name = "nome_provincia")
     private String nomeProvincia;
-    
-    @Column(name = "sigla")
+
     private String sigla;
-    
-    @Column(name = "regione")
+
     private String regione;
-    
-    // Constructors
+
+    @OneToMany(mappedBy = "provincia")
+    @JsonIgnore
+    private List<Comune> comuni;
+
+
     public Provincia() {
     }
-    
-    public Provincia(Long idProvincia, String nomeProvincia, String sigla, String regione) {
-        this.idProvincia = idProvincia;
+
+    public Provincia(String nomeProvincia, String sigla, String regione) {
         this.nomeProvincia = nomeProvincia;
         this.sigla = sigla;
         this.regione = regione;
     }
-    
-    // Getters and Setters
-    public Long getIdProvincia() {
+
+    public UUID getIdProvincia() {
         return idProvincia;
     }
-    
-    public void setIdProvincia(Long idProvincia) {
-        this.idProvincia = idProvincia;
-    }
-    
+
+
     public String getNomeProvincia() {
         return nomeProvincia;
     }
-    
+
     public void setNomeProvincia(String nomeProvincia) {
         this.nomeProvincia = nomeProvincia;
     }
-    
+
     public String getSigla() {
         return sigla;
     }
-    
+
     public void setSigla(String sigla) {
         this.sigla = sigla;
     }
-    
+
     public String getRegione() {
         return regione;
     }
-    
+
     public void setRegione(String regione) {
         this.regione = regione;
     }
-}
 
+    public List<Comune> getComuni() {
+        return comuni;
+    }
+
+    public void setComuni(List<Comune> comuni) {
+        this.comuni = comuni;
+    }
+}
