@@ -26,7 +26,7 @@ public class UtentiService {
 
     // FIND ALL
 
-    public Page<Utente> findAll(int pageNumber, int pageSize String sortBy) {
+    public Page<Utente> findAll(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.utenteRepository.findAll(pageable);

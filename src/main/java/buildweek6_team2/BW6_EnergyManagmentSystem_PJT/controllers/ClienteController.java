@@ -1,47 +1,45 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.controllers;
 
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Clienti;
+
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.ClientiService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clienti")
-public class ClientiController {
-
-    private final ClientiService clientiService;
+public class ClienteController {
 
     @Autowired
-    public ClientiController(ClientiService clientiService) {
-        this.clientiService = clientiService;
-    }
+    private ClientiService clientiService;
+
 
     @GetMapping
-    public ResponseEntity<List<Clienti>> getAll() {
+    public ResponseEntity<List<Cliente>> getAll() {
         return ResponseEntity.ok(clientiService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Clienti> getById(@PathVariable Long id) {
-        Optional<Clienti> opt = clientiService.findById(id);
+    public ResponseEntity<Cliente> getById(@PathVariable Long id) {
+        Optional<Cliente> opt = clientiService.findById(id);
         return opt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Clienti> create(@Valid @RequestBody Clienti cliente) {
-        Clienti saved = clientiService.save(cliente);
+    public ResponseEntity<Cliente> create(@Valid @RequestBody Cliente cliente) {
+        Cliente saved = clientiService.save(cliente);
         return ResponseEntity.status(201).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Clienti> update(@PathVariable Long id, @Valid @RequestBody Clienti cliente) {
-        Optional<Clienti> updated = clientiService.update(id, cliente);
+    public ResponseEntity<Cliente> update(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
+        Optional<Cliente> updated = clientiService.update(id, cliente);
         return updated.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

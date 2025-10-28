@@ -1,9 +1,9 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -12,11 +12,12 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Fatture {
+public class Fattura {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Setter(AccessLevel.NONE)
     @Column(name = "idFattura", updatable = false, nullable = false)
     private UUID idFattura;
 
@@ -29,5 +30,5 @@ public class Fatture {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId")
-    private Clienti cliente;
+    private Cliente cliente;
 }
