@@ -1,23 +1,24 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.controllers;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fatture;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.FattureService;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.FatturaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/fatture")
 public class FattureController {
-
-    private final FattureService fattureService;
+    @Autowired
+    private FatturaService fattureService;
 
     @Autowired
-    public FattureController(FattureService fattureService) {
+    public FattureController(FatturaService fattureService) {
         this.fattureService = fattureService;
     }
 
@@ -40,14 +41,14 @@ public class FattureController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fatture> update(@PathVariable Long id, @Valid @RequestBody Fatture fattura) {
+    public ResponseEntity<Fatture> update(@PathVariable UUID id, @Valid @RequestBody Fatture fattura) {
         Optional<Fatture> updated = fattureService.update(id, fattura);
         return updated.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         boolean deleted = fattureService.deleteById(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }

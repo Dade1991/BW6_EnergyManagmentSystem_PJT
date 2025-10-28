@@ -1,11 +1,12 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.FatturaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.FatturaRepository;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fatture;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FatturaService {
@@ -16,22 +17,22 @@ public class FatturaService {
         this.fatturaRepository = fatturaRepository;
     }
 
-    public List<Fatture> findAll() {
+    public List<Fattura> findAll() {
         return fatturaRepository.findAll();
     }
 
-    public Fatture findById(Long id) {
+    public Fattura findById(UUID id) {
         return fatturaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Fattura non trovata: " + id));
     }
 
     @Transactional
-    public Fatture create(Fatture fattura) {
+    public Fattura create(Fattura fattura) {
         return fatturaRepository.save(fattura);
     }
 
     @Transactional
-    public Fatture update(Long id, Fatture fattura) {
+    public Fattura update(UUID id, Fattura fattura) {
         if (!fatturaRepository.existsById(id)) {
             throw new RuntimeException("Fattura non trovata: " + id);
         }
@@ -40,7 +41,7 @@ public class FatturaService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!fatturaRepository.existsById(id)) {
             throw new RuntimeException("Fattura non trovata: " + id);
         }

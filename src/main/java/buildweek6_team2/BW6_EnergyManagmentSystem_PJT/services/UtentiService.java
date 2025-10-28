@@ -27,7 +27,7 @@ public class UtentiService {
 
     // FIND ALL
 
-    public Page<Utente> findAll(int pageNumber, int pageSize String sortBy) {
+    public Page<Utente> findAll(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.utenteRepository.findAll(pageable);
@@ -101,5 +101,9 @@ public class UtentiService {
 
     public Utente findByEmail(String email) {
         return this.utenteRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("User with email " + email + " has not been found."));
+    }
+
+    public Utente findUtenteById(UUID utenteId){
+        return this.utenteRepository.findById(utenteId).orElseThrow(() -> new IdNotFoundException("L'utente con ID: " + utenteId + " non è stato trovato"))
     }
 }

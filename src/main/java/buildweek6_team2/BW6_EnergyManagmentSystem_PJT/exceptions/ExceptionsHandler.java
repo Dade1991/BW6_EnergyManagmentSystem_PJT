@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-public class ExceptionsHandler  {
+public class ExceptionsHandler {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -54,7 +54,7 @@ public class ExceptionsHandler  {
 
     @ExceptionHandler(IdNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorsDTO handleIdNotFoundException(IdNotFoundException ex){
+    public ErrorsDTO handleIdNotFoundException(IdNotFoundException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 }
