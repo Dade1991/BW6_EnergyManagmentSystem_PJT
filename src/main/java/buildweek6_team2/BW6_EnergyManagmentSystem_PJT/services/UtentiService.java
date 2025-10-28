@@ -1,7 +1,9 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.UtenteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.aspectj.weaver.ast.Not;
@@ -14,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-
-import static java.awt.SystemColor.info;
 
 @Service
 @Slf4j
@@ -35,7 +35,7 @@ public class UtentiService {
 
     // SAVE
 
-    public Utente save(NewUtenteDTO payload) {
+    public Utente save(UtenteDTO payload) {
         this.utenteRepository.findByEmail(payload.email()).ifPresent(utente -> {
             throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
         }
