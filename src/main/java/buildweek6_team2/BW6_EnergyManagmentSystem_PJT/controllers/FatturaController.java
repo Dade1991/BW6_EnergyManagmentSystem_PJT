@@ -1,6 +1,5 @@
-package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.controllers;
-
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fatture;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.FatturaDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.FatturaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +12,33 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/fatture")
-public class FattureController {
+public class FatturaController {
     @Autowired
     private FatturaService fattureService;
 
-    @Autowired
-    public FattureController(FatturaService fattureService) {
-        this.fattureService = fattureService;
-    }
 
     @GetMapping
-    public ResponseEntity<List<Fatture>> getAll() {
+    public ResponseEntity<List<Fattura>> getAll() {
         return ResponseEntity.ok(fattureService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fatture> getById(@PathVariable Long id) {
-        Optional<Fatture> opt = fattureService.findById(id);
+    public ResponseEntity<Fattura> getById(@PathVariable UUID id) {
+        Optional<Fattura> opt = fattureService.findById(id);
         return opt.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Fatture> create(@Valid @RequestBody Fatture fattura) {
-        Fatture saved = fattureService.save(fattura);
+    public ResponseEntity<Fattura> create(@Valid @RequestBody FatturaDTO newFattura) {
+
+
         return ResponseEntity.status(201).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fatture> update(@PathVariable UUID id, @Valid @RequestBody Fatture fattura) {
-        Optional<Fatture> updated = fattureService.update(id, fattura);
+    public ResponseEntity<Fattura> update(@PathVariable UUID id, @Valid @RequestBody Fattura fattura) {
+        Optional<Fattura> updated = fattureService.update(id, fattura);
         return updated.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
