@@ -77,7 +77,7 @@ public class ClientiService {
         nuovoCliente.setFatturatoAnnuale(payload.fatturatoAnnuale());
         nuovoCliente.setPec(payload.pec());
         nuovoCliente.setTelefono(payload.telefono());
-        nuovoCliente.setLogoAziendale(payload.logoAziendale());
+        nuovoCliente.setLogoAziendale("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fux-catch-all--438115870007811792%2F&psig=AOvVaw1yDoHvyEoP77H9UW8Q0B5M&ust=1761834169949000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCz6vHNyZADFQAAAAAdAAAAABAE");
         nuovoCliente.setEmailContatto(payload.emailContatto());
         nuovoCliente.setNomeContatto(payload.nomeContatto());
         nuovoCliente.setCognomeContatto(payload.cognomeContatto());
