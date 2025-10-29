@@ -44,5 +44,5 @@ public class Cliente {
     private String indirizzoSede2;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Fatture> fatture = new HashSet<>();
+    private Set<Fattura> fatture = new HashSet<>();
 }
