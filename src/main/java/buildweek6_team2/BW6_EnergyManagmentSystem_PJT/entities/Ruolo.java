@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,9 +14,9 @@ import java.util.UUID;
 @ToString
 public class Ruolo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private UUID ruoloId;
+    private Long ruoloId;
     @Enumerated(EnumType.STRING)
     private TipoRuolo tipoRuolo;
     @ManyToMany(mappedBy = "ruolo")

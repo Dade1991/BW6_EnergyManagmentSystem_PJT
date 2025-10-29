@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
@@ -21,9 +20,9 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonLocked", "accountNonExpired", "credentialsNonExpired"})
 public class Utente implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private UUID utenteId;
+    private Long utenteId;
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false, unique = true)
@@ -44,11 +43,12 @@ public class Utente implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "ruoloId"))
     private List<Ruolo> ruolo = new ArrayList<>();
 
-    public Utente(String username,
-                  String email,
-                  String password,
-                  String nome,
-                  String cognome
+    public Utente(
+            String username,
+            String email,
+            String password,
+            String nome,
+            String cognome
     ) {
         this.username = username;
         this.email = email;

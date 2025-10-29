@@ -2,16 +2,16 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "province")
 public class Provincia {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_provincia")
-    private UUID idProvincia;
+    private Long idProvincia;
 
     @Column(name = "nome_provincia")
     private String nomeProvincia;
@@ -24,7 +24,6 @@ public class Provincia {
     @JsonIgnore
     private List<Comune> comuni;
 
-
     public Provincia() {
     }
 
@@ -34,7 +33,7 @@ public class Provincia {
         this.regione = regione;
     }
 
-    public UUID getIdProvincia() {
+    public Long getIdProvincia() {
         return idProvincia;
     }
 

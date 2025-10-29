@@ -1,8 +1,12 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 public record UtenteDTO(
 
@@ -19,6 +23,8 @@ public record UtenteDTO(
         String nome,
         @NotBlank(message = "Il nome è obbligatorio")
         @Size(min = 2, max = 20, message = "Il cognome deve avere un minimo di due caratteri e un massimo di 20")
-        String cognome
+        String cognome,
+        @NotNull(message = "Il ruolo non puo essere nullo, specificare.")
+        List<Ruolo> ruolo
 ) {
 }
