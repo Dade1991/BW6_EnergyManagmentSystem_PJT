@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonLocked", "accountNonExpired", "credentialsNonExpired"})
-public class Utente implements UserDetails {
+public class Utente {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -54,9 +54,9 @@ public class Utente implements UserDetails {
     }
 
     //Metodi
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority());
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority());
+//    }
 
 }

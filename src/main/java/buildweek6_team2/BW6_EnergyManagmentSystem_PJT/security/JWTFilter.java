@@ -48,9 +48,9 @@ public class JWTFilter extends OncePerRequestFilter {
         UUID idUtente = jwtTools.exctractIdFromToken(accessToken);
         Utente utenteFound = this.utentiService.findUtenteById(idUtente);
         // 2. Associazione dell'utente al Security Context
-        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteFound, null, utenteFound.getAuthorities());
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteFound, null, utenteFound.getAuthorities());
         // 3. Aggiornamento del Security Context associando ad esso l'utente corrente e il suo ruolo
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
     }
 

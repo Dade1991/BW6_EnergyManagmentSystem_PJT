@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Utenti_Ruoli implements UserDetails {
+public class Utenti_Ruoli {
     @ManyToOne
     @JoinColumn(name = "utente")
     @Setter(AccessLevel.NONE)
@@ -26,9 +26,9 @@ public class Utenti_Ruoli implements UserDetails {
     private Ruolo ruolo;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.ruolo.getTipoRuolo().name()));
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(this.ruolo.getTipoRuolo().name()));
+//    }
 
 }
