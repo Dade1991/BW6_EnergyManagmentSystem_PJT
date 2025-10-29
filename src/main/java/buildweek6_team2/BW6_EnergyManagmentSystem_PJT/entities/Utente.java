@@ -60,4 +60,5 @@ public class Utente implements UserDetails {
         return List.of(new SimpleGrantedAuthority());
     }
 
+
 }
