@@ -21,12 +21,16 @@ public class Fattura {
     @Column(name = "idFattura", updatable = false, nullable = false)
     private Long idFattura;
 
+    public void setIdFattura(Long idFattura) {
+        this.idFattura = idFattura;
+    }
+
     private LocalDate data;
     private Double importo;
     private String numero;
 
-    @OneToMany(mappedBy = "")
-    @Column(name = "stato_fattura")
+    @ManyToOne
+    @JoinColumn(name = "id_stato_fattura")
     private StatoFattura statoFattura;
 
     @ManyToOne(fetch = FetchType.LAZY)

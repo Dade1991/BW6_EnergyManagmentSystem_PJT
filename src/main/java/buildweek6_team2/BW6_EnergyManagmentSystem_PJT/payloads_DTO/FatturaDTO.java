@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-import java.util.UUID;
-
 public record FatturaDTO(
 
         @NotBlank(message = "Importo obbligatorio")
@@ -16,6 +14,6 @@ public record FatturaDTO(
         @Size(min = 1, max = 12, message = "Il numero della fattura deve avere un minimo di 1 caratteri e un massimo di 12")
         String numero,
         @NotNull(message = "L'ID del cliente è obbligatorio per la fattura")
-        UUID idCliente
+        Long idCliente
 ) {
 }
