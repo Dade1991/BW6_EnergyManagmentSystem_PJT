@@ -25,7 +25,7 @@ public class AuthController {
 
     // 1. POST per login
     @PostMapping("/login")
-    public LoginResponseDTO login(@RequestBody LoginDTO body){
+    public LoginResponseDTO login(@RequestBody LoginDTO body) {
         return new LoginResponseDTO(this.authService.checkAndCreateToken(body));
     }
 
@@ -33,8 +33,8 @@ public class AuthController {
     // 2. POST per registration
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Utente register(@RequestBody @Validated UtenteDTO bodyUtente, BindingResult validationResult){
-        if(validationResult.hasErrors()){
+    public Utente register(@RequestBody @Validated UtenteDTO bodyUtente, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
             throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
 

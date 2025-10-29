@@ -18,11 +18,11 @@ public class AuthService {
     @Autowired
     private JWTTools jwtTools;
 
-    public String checkAndCreateToken(LoginDTO bodyLogin){
+    public String checkAndCreateToken(LoginDTO bodyLogin) {
         // Controllo delle credenziali d'accesso
         Utente utenteFound = this.utentiService.findByEmail(bodyLogin.email());
 
-        if(bCrypt.matches(bodyLogin.Password(), utenteFound.getPassword())){
+        if (bCrypt.matches(bodyLogin.Password(), utenteFound.getPassword())) {
             return jwtTools.createToken(utenteFound);
         } else {
             throw new UnauthorizedException("Credenziali non valide");
