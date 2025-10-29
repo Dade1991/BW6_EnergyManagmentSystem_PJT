@@ -1,12 +1,14 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoRuolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.UtenteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,18 +39,24 @@ public class UtentiService {
 
     public Utente save(UtenteDTO payload) {
         this.utenteRepository.findByEmail(payload.email()).ifPresent(utente -> {
-            throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
-        }
+                    try {
+                        throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
+                    } catch (BadRequestException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         );
 
         Utente newUtente = new Utente(payload.username(),
                 payload.email(),
                 bcrypt.encode(payload.password()),
                 payload.nome(),
-                payload.cognome(),
-                payload.avatarURL(),
-                payload.role() // <------- TBD
+                payload.cognome()
         );
+
+        newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
+        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
+        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
 
         Utente savedUtente = this.utenteRepository.save(newUtente);
 
@@ -65,13 +73,17 @@ public class UtentiService {
 
     // FIND BY ID & UPDATE
 
-    public Utente findByIdAndUpdate(UUID utenteId, NewUtenteDTO payload) {
+    public Utente findByIdAndUpdate(UUID utenteId, UtenteDTO payload) {
         Utente found = this.findById(utenteId);
 
-        if(!found.getEmail().equals(payload.email())) {
-            this.utenteRepository.findByEmail(payload.email()).ifPresent(utente-> {
-                throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use. Try again.");
-            }
+        if (!found.getEmail().equals(payload.email())) {
+            this.utenteRepository.findByEmail(payload.email()).ifPresent(utente -> {
+                        try {
+                            throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use. Try again.");
+                        } catch (BadRequestException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
             );
         }
 
@@ -81,7 +93,7 @@ public class UtentiService {
         found.setNome(payload.nome());
         found.setCognome(payload.cognome());
         found.setAvatarURL(payload.avatarURL);
-        found.setRole(payload.role()); // <------- TBD
+        found.(payload.ruolo()); // <------- TBD
 
         Utente modifyUtente = this.utenteRepository.save(found);
 
@@ -92,7 +104,7 @@ public class UtentiService {
 
     // FIND BY ID & DELETE
 
-    public void findByIdAndDelete(UUID utenteId){
+    public void findByIdAndDelete(UUID utenteId) {
         Utente found = this.findById(utenteId);
         this.utenteRepository.delete(found);
     }
@@ -100,10 +112,10 @@ public class UtentiService {
     // FIND BY EMAIL
 
     public Utente findByEmail(String email) {
-        return this.utenteRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("User with email " + email + " has not been found."));
+        return this.utenteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User with email " + email + " has not been found."));
     }
 
-    public Utente findUtenteById(UUID utenteId){
-        return this.utenteRepository.findById(utenteId).orElseThrow(() -> new IdNotFoundException("L'utente con ID: " + utenteId + " non è stato trovato"))
+    public Utente findUtenteById(UUID utenteId) {
+        return this.utenteRepository.findById(utenteId).orElseThrow(() -> new IdNotFoundException("L'utente con ID: " + utenteId + " non è stato trovato"));
     }
 }

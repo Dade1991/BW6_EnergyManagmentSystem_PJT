@@ -20,8 +20,8 @@ public class Ruolo {
     private UUID ruoloId;
     @Enumerated(EnumType.STRING)
     private TipoRuolo tipoRuolo;
-    @OneToMany(mappedBy = "ruolo")
-    private List<Utenti_Ruoli> ListaUtenteRuoli = new ArrayList<>();
+    @ManyToMany(mappedBy = "ruolo")
+    private List<Utente> ListaUtenteRuoli = new ArrayList<>();
 
     public Ruolo(TipoRuolo tipoRuolo) {
         this.tipoRuolo = tipoRuolo;

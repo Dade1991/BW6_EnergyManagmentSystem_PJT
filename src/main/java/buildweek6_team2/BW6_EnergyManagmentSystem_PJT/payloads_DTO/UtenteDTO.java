@@ -20,6 +20,5 @@ public record UtenteDTO(
         @NotBlank(message = "Il nome è obbligatorio")
         @Size(min = 2, max = 20, message = "Il cognome deve avere un minimo di due caratteri e un massimo di 20")
         String cognome
-
 ) {
 }
