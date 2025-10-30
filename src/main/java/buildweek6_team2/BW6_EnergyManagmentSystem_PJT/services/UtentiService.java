@@ -40,13 +40,19 @@ public class UtentiService {
     private static final long MAX_SIZE = 5 * 1024 * 1024;
     private static final List<String> ALLOWED_FORMAT = List.of("image/jpeg", "image/png");
 
-    // FIND ALL
+    // FIND ALL (paginato)
 
     public Page<Utente> findAllUtenti(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
         sortBy = "nome";
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.utenteRepository.findAll(pageable);
+    }
+
+    // FIND ALL (senza paginazione)
+
+    public List<Utente> findAllUtentiWithoutPagination() {
+        return this.utenteRepository.findAll();
     }
 
     // SAVE

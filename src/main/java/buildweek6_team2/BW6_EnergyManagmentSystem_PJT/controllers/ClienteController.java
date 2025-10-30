@@ -5,14 +5,14 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.ValidationException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ClienteDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.ClientiService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/clienti")
@@ -25,10 +25,15 @@ public class ClienteController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
-    public Page<Cliente> getAllClienti(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size,
-                                       @RequestParam(defaultValue = "clienteId") String sortBy) {
-        return clientiService.trovaClienti(page, size, sortBy);
+    public Page<Cliente> getAllClienti(
+            @RequestParam(required = false) Double fatturatoAnnuale,
+            @RequestParam(required = false) LocalDate dataInserimento,
+            @RequestParam(required = false) LocalDate dataUltimoContatto,
+            @RequestParam(required = false) String nome,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "clienteId") String sortBy) {
+        return clientiService.trovaClienti(fatturatoAnnuale, dataInserimento, dataUltimoContatto, nome, page, size, sortBy);
     }
 
     // GET http://localhost:3001/clienti/{clienteId}
