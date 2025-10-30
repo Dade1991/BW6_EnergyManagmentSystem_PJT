@@ -2,6 +2,7 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.controllers;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteRoleDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.UtentiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -62,6 +63,13 @@ public class UtenteController {
     @PreAuthorize(("HasAuthority('ADMIN')"))
     public Utente getUtenteById(@PathVariable Long idCliente){
         return this.utentiService.findUtentiById(idCliente);
+    }
+
+    // PATCH ruolo utente
+    @PatchMapping("/{idUtente}")
+    @PreAuthorize(("HasAuthority('ADMIN')"))
+    public Utente getUtenteRoleAndUpdate(@PathVariable Long idUtente, @RequestBody UtenteRoleDTO body){
+        return this.utentiService.UpdateRuoloUtente(idUtente, body);
     }
 
     // DELETE utente

@@ -6,6 +6,7 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestExcep
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteRoleDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.UtenteRepository;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +106,18 @@ public class UtentiService {
         log.info("User with ID: " + modifyUtente.getUtenteId() + " has been duly updated.");
 
         return modifyUtente;
+    }
+
+    // UPDATE del ruolo dell'utente
+    public Utente UpdateRuoloUtente(Long utenteId, UtenteRoleDTO body){
+        Utente utenteFound = this.findUtentiById(utenteId);
+        Ruolo ruoloFound = this.ruoloService.findByIdRuolo(body.tipoRuolo());
+        List<Ruolo> newRuolo = new ArrayList<>();
+        newRuolo.add(ruoloFound);
+        utenteFound.setRuolo(newRuolo);
+        this.utenteRepository.save(utenteFound);
+        log.info("| L'utente " + utenteFound.getNome() + " " + utenteFound.getCognome() + " con ID: " + utenteFound.getUtenteId() + " è stato modificato correttamente");
+        return utenteFound;
     }
 
     // UPDATE dell'avatar del profilo
