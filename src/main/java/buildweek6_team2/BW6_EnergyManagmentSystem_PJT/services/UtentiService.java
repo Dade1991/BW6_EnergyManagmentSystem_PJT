@@ -97,26 +97,26 @@ public class UtentiService {
     // UPDATE dell'avatar del profilo
     public Utente uploadAvatarProfile(MultipartFile file, Long idUtente) {
 
-        if(file.isEmpty()) throw new BadRequestException("File vuoto!");
-        if(file.getSize() > MAX_SIZE) throw new BadRequestException("Attenzione, il file è superiore ai 5MB di dimensione");
-        if(!(ALLOWED_FORMAT.contains(file.getContentType()))) throw new BadRequestException("Attenzione, il formato non è corretto, deve essere del seguente tipo: (.jpeg) / (.png)");
+        if (file.isEmpty()) throw new BadRequestException("File vuoto!");
+        if (file.getSize() > MAX_SIZE)
+            throw new BadRequestException("Attenzione, il file è superiore ai 5MB di dimensione");
+        if (!(ALLOWED_FORMAT.contains(file.getContentType())))
+            throw new BadRequestException("Attenzione, il formato non è corretto, deve essere del seguente tipo: (.jpeg) / (.png)");
 
-    Utente utenteFound = this.findUtentiById(idUtente);
+        Utente utenteFound = this.findUtentiById(idUtente);
 
-    try {
-        //Cattura dell'URL dell'immagine
-        Map resultMap = getAvatarImage.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-        String imageUrl = (String) resultMap.get("url");
+        try {
+            //Cattura dell'URL dell'immagine
+            Map resultMap = getAvatarImage.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            String imageUrl = (String) resultMap.get("url");
 
-        //Salvataggio dell'immagine catturata
-        utenteFound.setAvatarURL(imageUrl);
-        this.utenteRepository.save(utenteFound);
-        return utenteFound;
-    } catch (Exception ex){
-        throw new BadRequestException("Errore nell'upload dell'immagine");
-    }
-
-
+            //Salvataggio dell'immagine catturata
+            utenteFound.setAvatarURL(imageUrl);
+            this.utenteRepository.save(utenteFound);
+            return utenteFound;
+        } catch (Exception ex) {
+            throw new BadRequestException("Errore nell'upload dell'immagine");
+        }
 
     }
 
