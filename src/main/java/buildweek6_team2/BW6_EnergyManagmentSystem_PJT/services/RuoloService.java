@@ -43,4 +43,6 @@ public class RuoloService {
         Ruolo ruolo = this.findByIdRuolo(id);
         this.ruoloRepository.delete(ruolo);
     }
+
+
 }

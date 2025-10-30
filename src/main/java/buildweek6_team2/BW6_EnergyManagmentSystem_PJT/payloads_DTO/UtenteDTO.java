@@ -23,8 +23,8 @@ public record UtenteDTO(
         String nome,
         @NotBlank(message = "Il nome è obbligatorio")
         @Size(min = 2, max = 20, message = "Il cognome deve avere un minimo di due caratteri e un massimo di 20")
-        String cognome,
-        @NotNull(message = "Il ruolo non puo essere nullo, specificare.")
-        List<Ruolo> ruolo
+        String cognome
+//        @NotNull(message = "Il ruolo non puo essere nullo, specificare.")
+//        String ruolo
 ) {
 }

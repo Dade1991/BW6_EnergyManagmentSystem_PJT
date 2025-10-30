@@ -18,27 +18,27 @@ public class RuoloController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public Ruolo saveRuolo(@RequestBody @Validated RuoloDTO payload) {
 
         return this.ruoloService.saveRuolo(payload);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public Ruolo findRuoloById(@PathVariable Long id) {
         return ruoloService.findByIdRuolo(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public Ruolo findAndUpdate(@PathVariable Long id, @RequestBody @Validated RuoloDTO modifiedRuoloPayload) {
 
         return ruoloService.updateRuolo(id, modifiedRuoloPayload);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findAndDelete(@PathVariable Long id) {
         ruoloService.deleteRuolo(id);

@@ -42,6 +42,8 @@ public class Utente implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "ruoloId"))
     private List<Ruolo> ruolo = new ArrayList<>();
 
+    private String mainRole;
+
     public Utente(
             String username,
             String email,
@@ -54,6 +56,7 @@ public class Utente implements UserDetails {
         this.password = password;
         this.nome = nome;
         this.cognome = cognome;
+
     }
 
     //Metodi

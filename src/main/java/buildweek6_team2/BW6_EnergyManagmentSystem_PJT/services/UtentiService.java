@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
@@ -31,6 +32,9 @@ public class UtentiService {
     private PasswordEncoder bcrypt;
     @Autowired
     private Cloudinary getAvatarImage;
+    @Autowired
+    private RuoloService ruoloService;
+
 
     //Creo delle variabili per dei controlli sull'inserimento dell'avatar del profilo
     private static final long MAX_SIZE = 5 * 1024 * 1024;
@@ -40,6 +44,7 @@ public class UtentiService {
 
     public Page<Utente> findAllUtenti(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
+        sortBy = "nome";
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return this.utenteRepository.findAll(pageable);
     }
@@ -51,6 +56,8 @@ public class UtentiService {
             throw new BadRequestException("The e-mail " + utente.getEmail() + " is already in use.");
         });
 
+        Ruolo ruoloFound = this.ruoloService.findByIdRuolo(0L);
+
         Utente newUtente = new Utente(payload.username(),
                 payload.email(),
                 bcrypt.encode(payload.password()),
@@ -58,9 +65,9 @@ public class UtentiService {
                 payload.cognome()
         );
 
+
         newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
-//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
-//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
+        newUtente.getRuolo().add(ruoloFound);
 
         Utente savedUtente = this.utenteRepository.save(newUtente);
 
@@ -85,7 +92,7 @@ public class UtentiService {
         found.setPassword(payload.password());
         found.setNome(payload.nome());
         found.setCognome(payload.cognome());
-        found.setRuolo(payload.ruolo());
+        found.setRuolo();
 
         Utente modifyUtente = this.utenteRepository.save(found);
 
