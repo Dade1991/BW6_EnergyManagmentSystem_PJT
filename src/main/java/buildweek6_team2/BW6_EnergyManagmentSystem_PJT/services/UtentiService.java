@@ -91,7 +91,6 @@ public class UtentiService {
         found.setPassword(payload.password());
         found.setNome(payload.nome());
         found.setCognome(payload.cognome());
-        found.setRuolo(payload.ruolo());
 
         Utente modifyUtente = this.utenteRepository.save(found);
 

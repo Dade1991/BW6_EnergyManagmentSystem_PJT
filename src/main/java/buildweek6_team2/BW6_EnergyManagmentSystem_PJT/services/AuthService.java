@@ -22,7 +22,7 @@ public class AuthService {
         // Controllo delle credenziali d'accesso
         Utente utenteFound = this.utentiService.findUtentiByEmail(bodyLogin.email());
 
-        if (bCrypt.matches(bodyLogin.Password(), utenteFound.getPassword())) {
+        if (bCrypt.matches(bodyLogin.password(), utenteFound.getPassword())) {
             return jwtTools.createToken(utenteFound);
         } else {
             throw new UnauthorizedException("Credenziali non valide");
