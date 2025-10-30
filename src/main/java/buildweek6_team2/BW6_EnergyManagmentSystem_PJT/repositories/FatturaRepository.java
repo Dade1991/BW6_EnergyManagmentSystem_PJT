@@ -2,11 +2,12 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
+@Repository
+public interface FatturaRepository extends JpaRepository<Fattura, Long> {
 
     Optional<Fattura> findByNumero(String numero);
 }

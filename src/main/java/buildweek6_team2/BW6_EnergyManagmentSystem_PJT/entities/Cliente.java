@@ -3,12 +3,10 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoCliente;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "clienti")
@@ -18,11 +16,10 @@ import java.util.UUID;
 public class Cliente {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     @Column(name = "idCliente", updatable = false, nullable = false)
-    private UUID idCliente;
+    private Long clienteId;
 
     private String ragioneSociale;
     private String partitaIva;
@@ -36,7 +33,7 @@ public class Cliente {
     private String nomeContatto;
     private String cognomeContatto;
     private String telefonoContatto;
-    private Boolean logoAziendale;
+    private String logoAziendale;
 
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;

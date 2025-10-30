@@ -28,7 +28,7 @@ public record ClienteDTO(
         @Pattern(regexp = "^[0-9\\s\\-()]{5,20}$", message = "Il telefono non è nel formato corretto")
         String telefono,
         @NotBlank(message = "È obbligatorio specificare la presenza del logo aziendale")
-        Boolean logoAziendale,
+        String logoAziendale,
         @NotBlank(message = "L'e-mail del contatto è obbligatoria")
         @Email(message = "L'e-mail del contatto non è nel formato giusto")
         String emailContatto,

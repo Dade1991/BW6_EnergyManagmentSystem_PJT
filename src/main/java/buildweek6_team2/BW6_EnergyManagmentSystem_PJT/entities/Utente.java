@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -20,9 +20,9 @@ import java.util.UUID;
 @JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonLocked", "accountNonExpired", "credentialsNonExpired"})
 public class Utente implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private UUID utenteId;
+    private Long utenteId;
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false, unique = true)
@@ -37,15 +37,18 @@ public class Utente implements UserDetails {
     private String avatarURL;
 
     @Column(nullable = false, unique = true)
-    @OneToMany(mappedBy = "utente")
-    private List<Utenti_Ruoli> listaUtenteRuoli = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "utente_ruoli",
+            joinColumns = @JoinColumn(name = "utenteId"),
+            inverseJoinColumns = @JoinColumn(name = "ruoloId"))
+    private List<Ruolo> ruolo = new ArrayList<>();
 
-    public Utente(String username,
-                  String email,
-                  String password,
-                  String nome,
-                  String cognome,
-                  Ruolo ruolo,
+    public Utente(
+            String username,
+            String email,
+            String password,
+            String nome,
+            String cognome
     ) {
         this.username = username;
         this.email = email;
@@ -55,9 +58,9 @@ public class Utente implements UserDetails {
     }
 
     //Metodi
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority());
+        return ruolo.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getTipoRuolo().name())).collect(Collectors.toList());
     }
-
 }

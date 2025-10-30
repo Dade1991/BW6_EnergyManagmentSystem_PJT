@@ -2,15 +2,13 @@ package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "comuni")
 public class Comune {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comune")
-    private UUID idComune;
+    private Long idComune;
 
     @Column(name = "nome_comune")
     private String nomeComune;
@@ -18,7 +16,6 @@ public class Comune {
     @ManyToOne
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
-
 
     public Comune() {
     }
@@ -28,7 +25,7 @@ public class Comune {
         this.provincia = provincia;
     }
 
-    public UUID getIdComune() {
+    public Long getIdComune() {
         return idComune;
     }
 
