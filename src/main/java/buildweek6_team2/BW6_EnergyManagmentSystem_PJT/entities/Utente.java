@@ -58,7 +58,6 @@ public class Utente implements UserDetails {
         this.password = password;
         this.nome = nome;
         this.cognome = cognome;
-
     }
 
     //Metodi

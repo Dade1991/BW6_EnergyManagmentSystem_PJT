@@ -58,17 +58,17 @@ public class UtenteController {
         return this.utentiService.findAllUtentiWithoutPagination();
     }
     // GET singolo utente
-    @GetMapping("/{idCliente}")
+    @GetMapping("/{idUtente}")
     @PreAuthorize(("hasAuthority('ADMIN')"))
-    public Utente getUtenteById(@PathVariable Long idCliente){
-        return this.utentiService.findUtentiById(idCliente);
+    public Utente getUtenteById(@PathVariable Long idUtente){
+        return this.utentiService.findUtentiById(idUtente);
     }
 
     // DELETE utente
-    @DeleteMapping("/{idCliente}")
+    @DeleteMapping("/{idUtente}")
     @PreAuthorize(("hasAuthority('ADMIN')"))
-    public void getUtenteByIdAndDelete(@PathVariable Long idCliente){
-        this.utentiService.findUtentiByIdAndDelete(idCliente);
+    public void getUtenteByIdAndDelete(@PathVariable Long idUtente){
+        this.utentiService.findUtentiByIdAndDelete(idUtente);
     }
 
 
