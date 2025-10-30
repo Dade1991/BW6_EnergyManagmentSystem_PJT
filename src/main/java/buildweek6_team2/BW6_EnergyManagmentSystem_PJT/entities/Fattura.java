@@ -19,15 +19,11 @@ public class Fattura {
     @Column(name = "id_fattura", updatable = false, nullable = false)
     private Long idFattura;
 
-    public void setIdFattura(Long idFattura) {
-        this.idFattura = idFattura;
-    }
-
     private LocalDate data;
     private Double importo;
     private String numero;
 
-    @ManyToMany
+    @ManyToOne
     @JoinTable(name = "stato_fattura",
             joinColumns = @JoinColumn(name = "fatturaId"),
             inverseJoinColumns = @JoinColumn(name = "statoFatturaId"))

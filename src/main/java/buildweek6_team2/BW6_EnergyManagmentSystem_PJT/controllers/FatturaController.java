@@ -1,6 +1,8 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.controllers;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.StatoFattura;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.ValidationException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.FatturaDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.FatturaService;
@@ -12,9 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 
 @RestController
-@RequestMapping("/api/fatture")
+@RequestMapping("/fatture")
 public class FatturaController {
     @Autowired
     private FatturaService fattureService;
@@ -24,8 +28,15 @@ public class FatturaController {
     @GetMapping
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "10") int size,
-                                       @RequestParam(defaultValue = "clienteId") String sortBy) {
-        return fattureService.findAllFatture(page, size, sortBy);
+                                       @RequestParam(defaultValue = "clienteId") String sortBy,
+                                       @RequestParam(required = false) Cliente cliente,
+                                       @RequestParam(required = false) StatoFattura stato,
+                                       @RequestParam(required = false) LocalDate data,
+                                       @RequestParam(required = false) Integer anno,
+                                       @RequestParam(required = false) Double minImporto,
+                                       @RequestParam(required = false) Double maxImporto) {
+
+        return fattureService.findAllFatture(page, size, sortBy, cliente, stato, data, anno, minImporto, maxImporto);
     }
 
     // GET http://localhost:3001/fatture/{idFattura}
