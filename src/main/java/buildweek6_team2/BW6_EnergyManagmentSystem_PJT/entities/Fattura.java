@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "fatture")
@@ -23,11 +21,9 @@ public class Fattura {
     private Double importo;
     private String numero;
 
-    @ManyToOne
-    @JoinTable(name = "stato_fattura",
-            joinColumns = @JoinColumn(name = "fatturaId"),
-            inverseJoinColumns = @JoinColumn(name = "statoFatturaId"))
-    private List<StatoFattura> statoFattura = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stato_fattura_id")
+    private StatoFattura statoFattura;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId")
