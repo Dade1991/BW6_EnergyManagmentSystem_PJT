@@ -7,6 +7,7 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestExcep
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.FatturaDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.FatturaRepository;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.StatoFatturaRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,9 @@ import java.util.List;
 public class FatturaService {
     @Autowired
     private FatturaRepository fatturaRepository;
+
+    @Autowired
+    private StatoFatturaRepository statoFatturaRepository;
 
     @Autowired
     private ClientiService clientiService;
@@ -124,5 +128,11 @@ public class FatturaService {
 
     public Fattura findFatturaById(Long idFattura) {
         return this.fatturaRepository.findById(idFattura).orElseThrow(() -> new IdNotFoundException("The invoice n°: " + idFattura + " has not been found."));
+    }
+
+    // FIND STATO FATTURA BY ID
+
+    public StatoFattura findStatoFatturaById(Long idStatoFattura) {
+        return this.statoFatturaRepository.findById(idStatoFattura).orElseThrow(() -> new IdNotFoundException("The invoice status id: " + idStatoFattura + " has not been found."));
     }
 }
