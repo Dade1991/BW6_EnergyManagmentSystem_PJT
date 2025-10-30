@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@Order(1)
+//@Order(1)
 public class runnersCSV implements CommandLineRunner {
 
     @Autowired

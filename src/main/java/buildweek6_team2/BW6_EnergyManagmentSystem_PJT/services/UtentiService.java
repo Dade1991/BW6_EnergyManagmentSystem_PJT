@@ -30,7 +30,7 @@ public class UtentiService {
     @Autowired
     private PasswordEncoder bcrypt;
     @Autowired
-    private Cloudinary getAvatarImage;
+    private Cloudinary imageUploader;
 
     //Creo delle variabili per dei controlli sull'inserimento dell'avatar del profilo
     private static final long MAX_SIZE = 5 * 1024 * 1024;
@@ -65,8 +65,6 @@ public class UtentiService {
         );
 
         newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
-//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
-//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
 
         Utente savedUtente = this.utenteRepository.save(newUtente);
 
@@ -113,7 +111,7 @@ public class UtentiService {
 
         try {
             //Cattura dell'URL dell'immagine
-            Map resultMap = getAvatarImage.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            Map resultMap = imageUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             String imageUrl = (String) resultMap.get("url");
 
             //Salvataggio dell'immagine catturata
