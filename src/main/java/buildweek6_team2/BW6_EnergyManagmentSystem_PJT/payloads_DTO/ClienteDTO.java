@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Indirizzo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoCliente;
 import jakarta.validation.constraints.*;
 
@@ -43,8 +44,9 @@ public record ClienteDTO(
         String telefonoContatto,
         @NotNull(message = "Il tipo di cliente è obbligatorio")
         TipoCliente tipoCliente,
-        @NotBlank(message = "L'indirizzo della sede legale è obbligatorio")
-        String indirizzoSede1,
-        String indirizzoSede2
+        @NotNull(message = "L'indirizzo della sede legale non deve essere nullo")
+        Long indirizzoSedeLegale,
+        @NotNull(message = "L'indirizzo della sede operativa non deve essere nullo")
+        Long indirizzoSedeOperativo
 ) {
 }
