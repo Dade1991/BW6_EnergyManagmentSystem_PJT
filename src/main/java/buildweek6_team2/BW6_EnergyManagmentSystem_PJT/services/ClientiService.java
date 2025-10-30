@@ -16,6 +16,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List.*;
 
 @Service
 public class ClientiService {
@@ -25,7 +27,7 @@ public class ClientiService {
     
     private static Specification<Cliente> filtraPer(Double fatturatoAnnuale, LocalDate dataInserimento, LocalDate dataUltimoContatto, String nome) {
         return (root, query, criteriaBuilder) -> {
-            java.util.List<Predicate> predicates = new java.util.ArrayList<>();
+            ArrayList<Predicate> predicates = new ArrayList<>();
             if (fatturatoAnnuale != null) {
                 predicates.add(criteriaBuilder.equal(root.get("fatturatoAnnuale"), fatturatoAnnuale));
             }
