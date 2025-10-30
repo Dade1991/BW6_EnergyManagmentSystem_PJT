@@ -17,7 +17,6 @@ public class Ruolo {
     @Setter(AccessLevel.NONE)
     @Column(name = "ruolo_id")
     private Long ruoloId;
-    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_ruolo")
     private String tipoRuolo;
 
