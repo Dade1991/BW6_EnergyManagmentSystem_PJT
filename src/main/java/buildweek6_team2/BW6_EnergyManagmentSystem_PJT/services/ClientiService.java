@@ -57,8 +57,8 @@ public class ClientiService {
         newCliente.setCognomeContatto(payload.cognomeContatto());
         newCliente.setTelefonoContatto(payload.telefonoContatto());
         newCliente.setTipoCliente(payload.tipoCliente());
-        newCliente.setIndirizzoSede1(payload.indirizzoSede1());
-        newCliente.setIndirizzoSede2(payload.indirizzoSede1());
+        newCliente.setIndirizzoLegale(payload.indirizzoSedeLegale());
+        newCliente.setIndirizzoOperativo(payload.indirizzoSedeOperativo());
 
         Cliente savedCliente = this.clientiRepository.save(newCliente);
 
@@ -100,8 +100,8 @@ public class ClientiService {
         found.setCognomeContatto(payload.cognomeContatto());
         found.setTelefonoContatto(payload.telefonoContatto());
         found.setTipoCliente(payload.tipoCliente());
-        found.setIndirizzoSede1(payload.indirizzoSede1());
-        found.setIndirizzoSede2(payload.indirizzoSede1());
+        found.setIndirizzoLegale(payload.indirizzoSedeLegale());
+        found.setIndirizzoOperativo(payload.indirizzoSedeOperativo());
 
         Cliente modifyCliente = this.clientiRepository.save(found);
 

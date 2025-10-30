@@ -6,6 +6,8 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundExcep
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.UtenteRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -23,6 +29,12 @@ public class UtentiService {
     private UtenteRepository utenteRepository;
     @Autowired
     private PasswordEncoder bcrypt;
+    @Autowired
+    private Cloudinary getAvatarImage;
+
+    //Creo delle variabili per dei controlli sull'inserimento dell'avatar del profilo
+    private static final long MAX_SIZE = 5 * 1024 * 1024;
+    private static final List<String> ALLOWED_FORMAT = List.of("image/jpeg", "image/png");
 
     // FIND ALL
 
@@ -81,6 +93,33 @@ public class UtentiService {
 
         return modifyUtente;
     }
+
+    // UPDATE dell'avatar del profilo
+    public Utente uploadAvatarProfile(MultipartFile file, Long idUtente) {
+
+        if(file.isEmpty()) throw new BadRequestException("File vuoto!");
+        if(file.getSize() > MAX_SIZE) throw new BadRequestException("Attenzione, il file è superiore ai 5MB di dimensione");
+        if(!(ALLOWED_FORMAT.contains(file.getContentType()))) throw new BadRequestException("Attenzione, il formato non è corretto, deve essere del seguente tipo: (.jpeg) / (.png)");
+
+    Utente utenteFound = this.findUtentiById(idUtente);
+
+    try {
+        //Cattura dell'URL dell'immagine
+        Map resultMap = getAvatarImage.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+        String imageUrl = (String) resultMap.get("url");
+
+        //Salvataggio dell'immagine catturata
+        utenteFound.setAvatarURL(imageUrl);
+        this.utenteRepository.save(utenteFound);
+        return utenteFound;
+    } catch (Exception ex){
+        throw new BadRequestException("Errore nell'upload dell'immagine");
+    }
+
+
+
+    }
+
 
     // FIND BY ID & DELETE
 
