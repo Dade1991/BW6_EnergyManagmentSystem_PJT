@@ -1,6 +1,7 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Indirizzo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
@@ -60,9 +61,7 @@ public class ClientiService {
         newCliente.setIndirizzoLegale(payload.indirizzoSedeLegale());
         newCliente.setIndirizzoOperativo(payload.indirizzoSedeOperativo());
 
-        Cliente savedCliente = this.clientiRepository.save(newCliente);
-
-        return savedCliente;
+        return this.clientiRepository.save(newCliente);
     }
 
     // FIND BY ID & UPDATE
@@ -86,6 +85,9 @@ public class ClientiService {
                 throw new BadRequestException("The P.I. code " + cliente.getPartitaIva() + " has not been found. Try again.");
             });
         }
+
+        Indirizzo indirizzo1Found = ;
+        Indirizzo indirizzo2Found =;
 
         found.setRagioneSociale(payload.ragioneSociale());
         found.setPartitaIva(payload.partitaIva());

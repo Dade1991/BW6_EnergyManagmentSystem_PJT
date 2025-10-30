@@ -45,8 +45,8 @@ public record ClienteDTO(
         @NotNull(message = "Il tipo di cliente è obbligatorio")
         TipoCliente tipoCliente,
         @NotNull(message = "L'indirizzo della sede legale non deve essere nullo")
-        Indirizzo indirizzoSedeLegale,
+        Long indirizzoSedeLegale,
         @NotNull(message = "L'indirizzo della sede operativa non deve essere nullo")
-        Indirizzo indirizzoSedeOperativo
+        Long indirizzoSedeOperativo
 ) {
 }
