@@ -17,7 +17,7 @@ public class Ruolo {
     @Setter(AccessLevel.NONE)
     @Column(name = "ruolo_id")
     private Long ruoloId;
-    @Column(name = "tipo_ruolo")
+    @Column(name = "tipo_ruolo", unique = true)
     private String tipoRuolo;
 
     @ManyToMany(mappedBy = "ruolo")
