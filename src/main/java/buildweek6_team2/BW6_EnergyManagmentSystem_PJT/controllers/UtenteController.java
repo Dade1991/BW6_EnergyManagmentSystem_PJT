@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/utenti")
@@ -43,11 +45,17 @@ public class UtenteController {
     }
 
 
-    // GET utenti
+    // GET utenti (paginato)
     @GetMapping
     @PreAuthorize(("HasAuthority('ADMIN')"))
     public Page<Utente> getAllUtenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "utenteId") String sortBy){
         return this.utentiService.findAllUtenti(page,size,sortBy);
+    }
+    // GET tutti gli utenti (senza paginazione)
+    @GetMapping("/all")
+    @PreAuthorize(("HasAuthority('ADMIN')"))
+    public List<Utente> getAllUtentiWithoutPagination(){
+        return this.utentiService.findAllUtentiWithoutPagination();
     }
     // GET singolo utente
     @GetMapping("/{idCliente}")
