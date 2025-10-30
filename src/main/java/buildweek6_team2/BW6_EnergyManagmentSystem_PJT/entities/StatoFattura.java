@@ -10,7 +10,6 @@ public class StatoFattura {
     @Column(name = "id_stato_fattura")
     private Long idStatoFattura;
 
-    @Enumerated(EnumType.STRING)
     private String stato;
 
     public StatoFattura() {
