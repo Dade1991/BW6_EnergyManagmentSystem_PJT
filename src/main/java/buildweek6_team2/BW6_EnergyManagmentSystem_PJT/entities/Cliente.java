@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoCliente;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -39,9 +40,12 @@ public class Cliente {
 
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
-
-    private String indirizzoSede1;
-    private String indirizzoSede2;
+    @OneToOne
+    @JoinColumn(name = "indirizzoLegale")
+    private Indirizzo indirizzoLegale;
+    @OneToOne
+    @JoinColumn(name = "indirizzoOperativo")
+    private Indirizzo indirizzoOperativo;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Fattura> fatture = new HashSet<>();
