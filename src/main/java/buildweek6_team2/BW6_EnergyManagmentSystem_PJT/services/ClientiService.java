@@ -1,6 +1,7 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Indirizzo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List.*;
@@ -24,7 +26,9 @@ public class ClientiService {
 
     @Autowired
     private ClienteRepository clientiRepository;
-    
+    @Autowired
+    private IndirizzoService indirizzoService;
+
     private static Specification<Cliente> filtraPer(Double fatturatoAnnuale, LocalDate dataInserimento, LocalDate dataUltimoContatto, String nome) {
         return (root, query, criteriaBuilder) -> {
             ArrayList<Predicate> predicates = new ArrayList<>();
@@ -62,36 +66,36 @@ public class ClientiService {
         this.clientiRepository.findByEmail(payload.email()).ifPresent(cliente -> {
             throw new BadRequestException("L'email " + cliente.getEmail() + " è già in uso.");
         });
-        this.clientiRepository.findByPEC(payload.pec()).ifPresent(cliente -> {
+        this.clientiRepository.findByPec(payload.pec()).ifPresent(cliente -> {
             throw new BadRequestException("La PEC " + cliente.getPec() + " è già in uso.");
         });
         this.clientiRepository.findByPartitaIva(payload.partitaIva()).ifPresent(cliente -> {
             throw new BadRequestException("La Partita IVA " + cliente.getPartitaIva() + " è già in uso.");
         });
 
-        Cliente nuovoCliente = new Cliente();
+        Indirizzo indirizzo1Found = this.indirizzoService.findByIdIndirizzo(payload.indirizzoSedeLegale());
+        Indirizzo indirizzo2Found = this.indirizzoService.findByIdIndirizzo(payload.indirizzoSedeOperativo());
 
-        nuovoCliente.setRagioneSociale(payload.ragioneSociale());
-        nuovoCliente.setPartitaIva(payload.partitaIva());
-        nuovoCliente.setEmail(payload.email());
-        nuovoCliente.setDataInserimento(payload.dataInserimento());
-        nuovoCliente.setDataUltimoContatto(payload.dataUltimoContatto());
-        nuovoCliente.setFatturatoAnnuale(payload.fatturatoAnnuale());
-        nuovoCliente.setPec(payload.pec());
-        nuovoCliente.setTelefono(payload.telefono());
-        nuovoCliente.setLogoAziendale("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fux-catch-all--438115870007811792%2F&psig=AOvVaw1yDoHvyEoP77H9UW8Q0B5M&ust=1761834169949000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCz6vHNyZADFQAAAAAdAAAAABAE");
-        nuovoCliente.setEmailContatto(payload.emailContatto());
-        nuovoCliente.setNomeContatto(payload.nomeContatto());
-        nuovoCliente.setCognomeContatto(payload.cognomeContatto());
-        nuovoCliente.setTelefonoContatto(payload.telefonoContatto());
-        nuovoCliente.setTipoCliente(payload.tipoCliente());
-        nuovoCliente.setIndirizzoSede1(payload.indirizzoSede1());
-        nuovoCliente.setIndirizzoSede2(payload.indirizzoSede1());
-        nuovoCliente.setProvinciaSedeLegale(payload.provinciaSedeLegale());
+        Cliente newCliente = new Cliente();
 
-        Cliente clienteSalvato = this.clientiRepository.save(nuovoCliente);
+        newCliente.setRagioneSociale(payload.ragioneSociale());
+        newCliente.setPartitaIva(payload.partitaIva());
+        newCliente.setEmail(payload.email());
+        newCliente.setDataInserimento(payload.dataInserimento());
+        newCliente.setDataUltimoContatto(payload.dataUltimoContatto());
+        newCliente.setFatturatoAnnuale(payload.fatturatoAnnuale());
+        newCliente.setPec(payload.pec());
+        newCliente.setTelefono(payload.telefono());
+        newCliente.setLogoAziendale("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fux-catch-all--438115870007811792%2F&psig=AOvVaw1yDoHvyEoP77H9UW8Q0B5M&ust=1761834169949000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJCz6vHNyZADFQAAAAAdAAAAABAE");
+        newCliente.setEmailContatto(payload.emailContatto());
+        newCliente.setNomeContatto(payload.nomeContatto());
+        newCliente.setCognomeContatto(payload.cognomeContatto());
+        newCliente.setTelefonoContatto(payload.telefonoContatto());
+        newCliente.setTipoCliente(payload.tipoCliente());
+        newCliente.setIndirizzoLegale(indirizzo1Found);
+        newCliente.setIndirizzoOperativo(indirizzo2Found);
 
-        return clienteSalvato;
+        return this.clientiRepository.save(newCliente);
     }
 
     // FIND BY ID & UPDATE
@@ -99,42 +103,44 @@ public class ClientiService {
     @Transactional
     public Cliente findClientiByIdAndUpdate(Long clienteId,
                                             ClienteDTO payload) {
-        Cliente found = this.findClientiById(clienteId);
+        Cliente found = this.trovaClientePerId(clienteId);
 
-        if (!clienteTrovato.getEmail().equals(payload.email())) {
+        if (!found.getEmail().equals(payload.email())) {
             this.clientiRepository.findByEmail(payload.email()).ifPresent(cliente -> {
                 throw new BadRequestException("L'email " + payload.email() + " è già utilizzata da un altro cliente.");
             });
         }
-        if (!clienteTrovato.getPec().equals(payload.pec())) {
-            this.clientiRepository.findByPEC(payload.pec()).ifPresent(cliente -> {
+        if (!found.getPec().equals(payload.pec())) {
+            this.clientiRepository.findByPec(payload.pec()).ifPresent(cliente -> {
                 throw new BadRequestException("La PEC " + payload.pec() + " è già utilizzata da un altro cliente.");
             });
         }
-        if (!clienteTrovato.getPartitaIva().equals(payload.partitaIva())) {
+        if (!found.getPartitaIva().equals(payload.partitaIva())) {
             this.clientiRepository.findByPartitaIva(payload.partitaIva()).ifPresent(cliente -> {
                 throw new BadRequestException("La Partita IVA " + payload.partitaIva() + " è già utilizzata da un altro cliente.");
             });
         }
 
-        clienteTrovato.setRagioneSociale(payload.ragioneSociale());
-        clienteTrovato.setPartitaIva(payload.partitaIva());
-        clienteTrovato.setEmail(payload.email());
-        clienteTrovato.setDataInserimento(payload.dataInserimento());
-        clienteTrovato.setDataUltimoContatto(payload.dataUltimoContatto());
-        clienteTrovato.setFatturatoAnnuale(payload.fatturatoAnnuale());
-        clienteTrovato.setPec(payload.pec());
-        clienteTrovato.setTelefono(payload.telefono());
-        clienteTrovato.setEmailContatto(payload.emailContatto());
-        clienteTrovato.setNomeContatto(payload.nomeContatto());
-        clienteTrovato.setCognomeContatto(payload.cognomeContatto());
-        clienteTrovato.setTelefonoContatto(payload.telefonoContatto());
-        clienteTrovato.setTipoCliente(payload.tipoCliente());
-        clienteTrovato.setIndirizzoSede1(payload.indirizzoSede1());
-        clienteTrovato.setIndirizzoSede2(payload.indirizzoSede1());
-        clienteTrovato.setProvinciaSedeLegale(payload.provinciaSedeLegale());
+        Indirizzo indirizzo1Found = this.indirizzoService.findByIdIndirizzo(payload.indirizzoSedeLegale());
+        Indirizzo indirizzo2Found = this.indirizzoService.findByIdIndirizzo(payload.indirizzoSedeOperativo());
 
-        Cliente clienteModificato = this.clientiRepository.save(clienteTrovato);
+        found.setRagioneSociale(payload.ragioneSociale());
+        found.setPartitaIva(payload.partitaIva());
+        found.setEmail(payload.email());
+        found.setDataInserimento(payload.dataInserimento());
+        found.setDataUltimoContatto(payload.dataUltimoContatto());
+        found.setFatturatoAnnuale(payload.fatturatoAnnuale());
+        found.setPec(payload.pec());
+        found.setTelefono(payload.telefono());
+        found.setEmailContatto(payload.emailContatto());
+        found.setNomeContatto(payload.nomeContatto());
+        found.setCognomeContatto(payload.cognomeContatto());
+        found.setTelefonoContatto(payload.telefonoContatto());
+        found.setTipoCliente(payload.tipoCliente());
+        found.setIndirizzoLegale(indirizzo1Found);
+        found.setIndirizzoOperativo(indirizzo2Found);
+
+        Cliente clienteModificato = this.clientiRepository.save(found);
 
         return clienteModificato;
     }
