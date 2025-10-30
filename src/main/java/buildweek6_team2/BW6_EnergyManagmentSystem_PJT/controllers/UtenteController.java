@@ -47,26 +47,26 @@ public class UtenteController {
 
     // GET utenti (paginato)
     @GetMapping
-    @PreAuthorize(("HasAuthority('ADMIN')"))
+    @PreAuthorize(("hasAuthority('ADMIN')"))
     public Page<Utente> getAllUtenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "utenteId") String sortBy){
         return this.utentiService.findAllUtenti(page,size,sortBy);
     }
     // GET tutti gli utenti (senza paginazione)
     @GetMapping("/all")
-    @PreAuthorize(("HasAuthority('ADMIN')"))
+    @PreAuthorize(("hasAuthority('ADMIN')"))
     public List<Utente> getAllUtentiWithoutPagination(){
         return this.utentiService.findAllUtentiWithoutPagination();
     }
     // GET singolo utente
     @GetMapping("/{idCliente}")
-    @PreAuthorize(("HasAuthority('ADMIN')"))
+    @PreAuthorize(("hasAuthority('ADMIN')"))
     public Utente getUtenteById(@PathVariable Long idCliente){
         return this.utentiService.findUtentiById(idCliente);
     }
 
     // DELETE utente
     @DeleteMapping("/{idCliente}")
-    @PreAuthorize(("HasAuthority('ADMIN')"))
+    @PreAuthorize(("hasAuthority('ADMIN')"))
     public void getUtenteByIdAndDelete(@PathVariable Long idCliente){
         this.utentiService.findUtentiByIdAndDelete(idCliente);
     }
