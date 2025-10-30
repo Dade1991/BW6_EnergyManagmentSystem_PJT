@@ -20,7 +20,7 @@ public class AuthService {
 
     public String checkAndCreateToken(LoginDTO bodyLogin) {
         // Controllo delle credenziali d'accesso
-        Utente utenteFound = this.utentiService.findByEmail(bodyLogin.email());
+        Utente utenteFound = this.utentiService.findUtentiByEmail(bodyLogin.email());
 
         if (bCrypt.matches(bodyLogin.Password(), utenteFound.getPassword())) {
             return jwtTools.createToken(utenteFound);

@@ -1,6 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO;
 
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.TipoCliente;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoCliente;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

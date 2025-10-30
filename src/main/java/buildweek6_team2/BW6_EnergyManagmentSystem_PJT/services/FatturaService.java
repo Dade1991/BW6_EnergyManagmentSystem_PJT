@@ -69,7 +69,24 @@ public class FatturaService {
 
     // SAVE
 
-    public Fattura trovaPerId(Long id) {
+    
+    public Fattura saveFattura(FatturaDTO payload) {
+        this.fatturaRepository.findByNumero(payload.numero()).ifPresent(fattura -> {
+            throw new BadRequestException("The e-mail " + fattura.getNumero() + " is already in use.");
+        });
+
+        Fattura newFattura = new Fattura(payload.importo(),
+                payload.numero()
+        );
+
+
+        log.info("The user with ID: " + " has been duly saved.");
+
+        return savedUtente;
+    }
+
+
+    public Fattura findById(Long id) {
         return fatturaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Fattura non trovata: " + id));
     }
