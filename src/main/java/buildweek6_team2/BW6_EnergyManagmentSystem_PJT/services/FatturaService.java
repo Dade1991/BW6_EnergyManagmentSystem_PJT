@@ -1,9 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoRuolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.FatturaDTO;
@@ -46,11 +43,6 @@ public class FatturaService {
                 payload.numero()
         );
 
-        newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
-
-        Utente savedUtente = this.utenteRepository.save(newUtente);
 
         log.info("The user with ID: " + " has been duly saved.");
 

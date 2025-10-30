@@ -1,8 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoRuolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
@@ -49,8 +47,8 @@ public class UtentiService {
         );
 
         newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
+//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
+//        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
 
         Utente savedUtente = this.utenteRepository.save(newUtente);
 

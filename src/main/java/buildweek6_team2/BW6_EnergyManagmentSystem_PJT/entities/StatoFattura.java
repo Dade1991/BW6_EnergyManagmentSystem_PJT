@@ -1,6 +1,5 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.StatoFatturaType;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +11,12 @@ public class StatoFattura {
     private Long idStatoFattura;
 
     @Enumerated(EnumType.STRING)
-    private StatoFatturaType stato;
+    private String stato;
 
     public StatoFattura() {
     }
 
-    public StatoFattura(StatoFatturaType stato) {
+    public StatoFattura(String stato) {
         this.stato = stato;
     }
 
@@ -25,11 +24,11 @@ public class StatoFattura {
         return idStatoFattura;
     }
 
-    public StatoFatturaType getStato() {
+    public String getStato() {
         return stato;
     }
 
-    public void setStato(StatoFatturaType stato) {
+    public void setStato(String stato) {
         this.stato = stato;
     }
 }

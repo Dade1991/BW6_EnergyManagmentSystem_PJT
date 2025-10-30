@@ -36,7 +36,6 @@ public class Utente implements UserDetails {
     @Column(name = "avatar_url", nullable = false, unique = true)
     private String avatarURL;
 
-    @Column(nullable = false, unique = true)
     @ManyToMany
     @JoinTable(name = "utente_ruoli",
             joinColumns = @JoinColumn(name = "utenteId"),
@@ -61,6 +60,6 @@ public class Utente implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return ruolo.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getTipoRuolo().name())).collect(Collectors.toList());
+        return ruolo.stream().map(ruolo -> new SimpleGrantedAuthority(ruolo.getTipoRuolo())).collect(Collectors.toList());
     }
 }

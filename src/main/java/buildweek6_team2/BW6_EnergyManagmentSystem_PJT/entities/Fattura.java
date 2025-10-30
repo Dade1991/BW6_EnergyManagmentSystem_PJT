@@ -18,14 +18,14 @@ public class Fattura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    @Column(name = "idFattura", updatable = false, nullable = false)
+    @Column(name = "id_fattura", updatable = false, nullable = false)
     private Long idFattura;
 
     private LocalDate data;
     private Double importo;
     private String numero;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "statoFattura")
     @Column(name = "stato_fattura")
     private StatoFattura statoFattura;
 
