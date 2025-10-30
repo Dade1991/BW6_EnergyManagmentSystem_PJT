@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/fatture")
+@RequestMapping("/fatture")
 public class FatturaController {
     @Autowired
     private FatturaService fattureService;
