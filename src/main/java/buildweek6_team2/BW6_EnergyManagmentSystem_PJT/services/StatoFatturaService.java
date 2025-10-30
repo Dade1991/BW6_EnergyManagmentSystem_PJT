@@ -58,7 +58,7 @@ public class StatoFatturaService {
     // FIND BY ID
 
     public StatoFattura findStatoFatturaById(Long idStatoFattura) {
-        return this.statoFatturaRepository.findByStatoId(idStatoFattura)
+        return this.statoFatturaRepository.findByIdStatoFattura(idStatoFattura)
                 .orElseThrow(() -> new IdNotFoundException("ID status " + idStatoFattura + " has not been found."));
     }
 

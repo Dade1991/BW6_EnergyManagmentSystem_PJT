@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface StatoFatturaRepository extends JpaRepository<StatoFattura, Long> {
     Optional<StatoFattura> findByStato(String stato);
 
-    Optional<StatoFattura> findByStatoId(Long idStatoFattura);
+    Optional<StatoFattura> findByIdStatoFattura(Long idStatoFattura);
 }

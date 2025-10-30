@@ -63,7 +63,7 @@ public class FatturaService {
         newFattura.setData(payload.data());
         newFattura.setImporto(payload.importo());
         newFattura.setNumero(payload.numero());
-        newFattura.setStatoFattura(List.of(initialState));
+        newFattura.setStatoFattura(initialState);
 
         Fattura savedFattura = this.fatturaRepository.save(newFattura);
 
