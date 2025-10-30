@@ -21,39 +21,26 @@ public class IndirizzoController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo createIndirizzo(@RequestBody @Validated IndirizzoDTO newIndirizzoPayload) {
 
-        Indirizzo nuovoIndirizzo = new Indirizzo(
-                newIndirizzoPayload.via(),
-                newIndirizzoPayload.civico(),
-                newIndirizzoPayload.localita(),
-                newIndirizzoPayload.cap()
-        );
-        return indirizzoService.saveIndirizzo(nuovoIndirizzo);
+        return this.indirizzoService.saveIndirizzo(newIndirizzoPayload);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public Indirizzo findIndirizzoById(@PathVariable Long id) {
-        return indirizzoService.findByIdIndirizzo(id);
+        return this.indirizzoService.findByIdIndirizzo(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable Long id) {
-        indirizzoService.deleteIndirizzo(id);
+        this.indirizzoService.deleteIndirizzo(id);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo findAndUpdate(@PathVariable Long id, @RequestBody @Validated IndirizzoDTO modifiedIndirizzoPayload) {
-        Indirizzo indirizzo = indirizzoService.findByIdIndirizzo(id);
 
-        
-        indirizzo.setVia(modifiedIndirizzoPayload.via());
-        indirizzo.setCivico(modifiedIndirizzoPayload.civico());
-        indirizzo.setLocalita(modifiedIndirizzoPayload.localita());
-        indirizzo.setCap(modifiedIndirizzoPayload.cap());
-
-        return indirizzoService.saveIndirizzo(indirizzo);
+        return this.indirizzoService.saveIndirizzo(modifiedIndirizzoPayload);
     }
 }
