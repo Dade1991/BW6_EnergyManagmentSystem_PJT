@@ -28,7 +28,7 @@ public class ClienteController {
     public Page<Cliente> getAllClienti(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "10") int size,
                                        @RequestParam(defaultValue = "clienteId") String sortBy) {
-        return clientiService.findAllClienti(page, size, sortBy);
+        return clientiService.trovaClienti(page, size, sortBy);
     }
 
     // GET http://localhost:3001/clienti/{clienteId}
@@ -36,7 +36,7 @@ public class ClienteController {
     @GetMapping("/{clienteId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public Cliente getClienteById(@PathVariable Long clienteId) {
-        return clientiService.findClientiById(clienteId);
+        return clientiService.trovaClientePerId(clienteId);
     }
 
     // PUT http://localhost:3001/clienti/{clienteId} (+ payload)
@@ -53,12 +53,12 @@ public class ClienteController {
         if(validationResult.hasErrors()){
             throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
-        return this.clientiService.saveClienti(bodyCliente);
+        return this.clientiService.salvaCliente(bodyCliente);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{clienteId}")
     public void deleteCliente(@PathVariable Long clienteId) {
-        this.clientiService.deleteClienti(clienteId);
+        this.clientiService.eliminaClientePerId(clienteId);
     }
 }

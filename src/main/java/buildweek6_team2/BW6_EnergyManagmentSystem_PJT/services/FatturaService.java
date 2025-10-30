@@ -74,7 +74,7 @@ public class FatturaService {
             throw new BadRequestException("The invoice n°: " + fattura.getNumero() + " is already in use.");
         });
 
-        Cliente found = this.clientiService.findClientiById(payload.idCliente());
+        Cliente found = this.clientiService.trovaClientePerId(payload.idCliente());
 
         Fattura newFattura = new Fattura(
                 payload.data(),
