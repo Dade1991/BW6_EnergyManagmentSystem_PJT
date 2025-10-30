@@ -1,11 +1,9 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Cliente;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Fattura;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Ruolo;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Utente;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoRuolo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.BadRequestException;
-import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.FatturaDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.FatturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 @Service
 public class FatturaService {
@@ -34,66 +29,62 @@ public class FatturaService {
         return this.fatturaRepository.findAll(pageable);
     }
 
-
     // SAVE
 
     public Fattura saveFattura(FatturaDTO payload) {
         this.fatturaRepository.findByNumero(payload.numero()).ifPresent(fattura -> {
-            throw new BadRequestException("The e-mail " + fattura.getNumero() + " is already in use.");
+            throw new BadRequestException("The invoice n°: " + fattura.getNumero() + " is already in use.");
         });
 
-        Fattura newFattura = new Fattura(payload.importo(),
-                payload.numero()
+        Cliente found = this.clientiService.findClientiById(payload.idCliente());
+
+        Fattura newFattura = new Fattura(
+                payload.data(),
+                payload.importo(),
+                payload.numero(),
+                found
         );
 
-        newUtente.setAvatarURL("https://ui-avatars.com/api/?name=" + payload.nome() + "+" + payload.cognome());
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.ADMIN));
-        newUtente.getRuolo().add(new Ruolo(TipoRuolo.USER));
-
-        Utente savedUtente = this.utenteRepository.save(newUtente);
-
-        log.info("The user with ID: " + " has been duly saved.");
-
-        return savedUtente;
-    }
-
-
-    public Fattura findById(Long id) {
-        return fatturaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Fattura non trovata: " + id));
-    }
-
-
-    public Fattura create(FatturaDTO payload) {
-
-        this.fatturaRepository.findByNumero(payload.numero()).ifPresent(fattura -> {
-            throw new BadRequestException("La fattura " + fattura.getNumero() + " è già in uso!");
-        });
-
-        Fattura newFattura = new Fattura();
-
-        newFattura.setData(LocalDate.now());
+        newFattura.setData(payload.data());
         newFattura.setImporto(payload.importo());
         newFattura.setNumero(payload.numero());
-        newFattura.setCliente(this.clientiService.findById(payload.idCliente()));
 
-        return newFattura;
+        Fattura savedFattura = this.fatturaRepository.save(newFattura);
+
+        return savedFattura;
     }
 
-    @Transactional
-    public Fattura update(Long id, Fattura fattura) {
-        if (!fatturaRepository.existsById(id)) {
-            throw new RuntimeException("Fattura non trovata: " + id);
+    // FIND BY ID & UPDATE
+
+    public Fattura findFatturaByIdAndUpdate(Long idFattura,
+                                            FatturaDTO payload) {
+        Fattura found = this.findFatturaById(idFattura);
+
+        if (!found.getNumero().equals(payload.numero())) {
+            this.fatturaRepository.findByNumero(payload.numero()).ifPresent(fattura -> {
+
+            });
         }
-        fattura.setId(id);
-        return fatturaRepository.save(fattura);
+
+        found.setData(payload.data());
+        found.setImporto(payload.importo());
+        found.setNumero(payload.numero());
+
+        Fattura modifyFattura = this.fatturaRepository.save(found);
+
+        return modifyFattura;
     }
 
-    @Transactional
-    public void delete(Long id) {
-        if (!fatturaRepository.existsById(id)) {
-            throw new RuntimeException("Fattura non trovata: " + id);
-        }
-        fatturaRepository.deleteById(id);
+    // FIND BY ID & DELETE
+
+    public void findByIdAndDeleteFattura(Long idFattura) {
+        Fattura found = this.findFatturaById(idFattura);
+        this.fatturaRepository.delete(found);
+    }
+
+    // FIND BY ID
+
+    public Fattura findFatturaById(Long idFattura) {
+        return this.fatturaRepository.findById(idFattura).orElseThrow(() -> new IdNotFoundException("The invoice n°: " + idFattura + " has not been found."));
     }
 }

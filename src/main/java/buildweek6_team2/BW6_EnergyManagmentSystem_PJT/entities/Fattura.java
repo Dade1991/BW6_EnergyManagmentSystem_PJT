@@ -1,20 +1,18 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "fatture")
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
+@ToString
 public class Fattura {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -25,11 +23,20 @@ public class Fattura {
     private Double importo;
     private String numero;
 
-    @OneToMany(mappedBy = "")
-    @Column(name = "stato_fattura")
-    private StatoFattura statoFattura;
+    @ManyToMany
+    @JoinTable(name = "stato_fattura",
+            joinColumns = @JoinColumn(name = "fatturaId"),
+            inverseJoinColumns = @JoinColumn(name = "statoFatturaId"))
+    private List<StatoFattura> statoFattura = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clientId")
     private Cliente cliente;
+
+    public Fattura(LocalDate data, Double importo, String numero, Cliente cliente) {
+        this.data = data;
+        this.importo = importo;
+        this.numero = numero;
+        this.cliente = cliente;
+    }
 }

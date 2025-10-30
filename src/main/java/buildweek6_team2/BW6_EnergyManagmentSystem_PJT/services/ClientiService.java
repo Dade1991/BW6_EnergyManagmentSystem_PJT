@@ -68,7 +68,8 @@ public class ClientiService {
     // FIND BY ID & UPDATE
 
     @Transactional
-    public Cliente findClientiByIdAndUpdate(Long clienteId, ClienteDTO payload) {
+    public Cliente findClientiByIdAndUpdate(Long clienteId,
+                                            ClienteDTO payload) {
         Cliente found = this.findClientiById(clienteId);
 
         if (!found.getEmail().equals(payload.email())) {
