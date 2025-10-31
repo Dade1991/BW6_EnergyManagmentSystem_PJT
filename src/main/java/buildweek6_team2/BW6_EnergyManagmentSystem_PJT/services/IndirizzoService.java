@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services;
 
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Comune;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities.Indirizzo;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.IndirizzoDTO;
@@ -13,12 +14,19 @@ public class IndirizzoService {
     @Autowired
     private IndirizzoRepository indirizzoRepository;
 
+    @Autowired
+    private ComuneService comuneService;
+
     public Indirizzo saveIndirizzo(IndirizzoDTO payload) {
+
+        Comune comuneFound = this.comuneService.findComuneById(payload.idComune());
+
         Indirizzo nuovoIndirizzo = new Indirizzo(
                 payload.via(),
                 payload.civico(),
                 payload.localita(),
-                payload.cap()
+                payload.cap(),
+                comuneFound
         );
         return indirizzoRepository.save(nuovoIndirizzo);
     }

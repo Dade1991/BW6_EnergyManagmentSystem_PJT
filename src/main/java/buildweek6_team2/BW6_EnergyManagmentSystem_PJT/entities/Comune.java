@@ -1,6 +1,10 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "comuni")
@@ -16,6 +20,10 @@ public class Comune {
     @ManyToOne
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "comune")
+    private List<Indirizzo> listaIndirizzi = new ArrayList<>();
 
     public Comune() {
     }

@@ -1,6 +1,8 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,20 +26,20 @@ public class Utente implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long utenteId;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String password;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String nome;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String cognome;
     @Column(name = "avatar_url", nullable = false, unique = true)
     private String avatarURL;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "utente_ruoli",
             joinColumns = @JoinColumn(name = "utenteId"),
             inverseJoinColumns = @JoinColumn(name = "ruoloId"))

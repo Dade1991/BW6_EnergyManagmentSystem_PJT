@@ -29,10 +29,11 @@ public class Fattura {
     @JoinColumn(name = "clientId")
     private Cliente cliente;
 
-    public Fattura(LocalDate data, Double importo, String numero, Cliente cliente) {
+    public Fattura(LocalDate data, Double importo, String numero, Cliente cliente, StatoFattura statoFattura) {
         this.data = data;
         this.importo = importo;
         this.numero = numero;
         this.cliente = cliente;
+        this.statoFattura = statoFattura;
     }
 }

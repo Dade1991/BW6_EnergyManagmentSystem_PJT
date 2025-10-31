@@ -60,7 +60,7 @@ public class ClientiService {
             int dimensione,
             String ordinaPer) {
         if (dimensione > 50) dimensione = 50;
-        Pageable pageable = PageRequest.of(pagina, dimensione, Sort.by(ordinaPer));
+        Pageable pageable = PageRequest.of(pagina, dimensione, Sort.by(ordinaPer).ascending());
         Specification<Cliente> specifica = filtraPer(fatturatoAnnuale, dataInserimento, dataUltimoContatto, nome);
         return clientiRepository.findAll(specifica, pageable);
     }
