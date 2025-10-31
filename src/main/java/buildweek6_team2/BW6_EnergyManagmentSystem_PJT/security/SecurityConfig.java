@@ -41,7 +41,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3001"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
 
@@ -52,8 +52,9 @@ public class SecurityConfig {
 
     // Bcrypt per la sicurezza delle password per gli utenti
     @Bean
-    public PasswordEncoder getBcrypt(){
+    public PasswordEncoder getBcrypt() {
         return new BCryptPasswordEncoder(12);
     }
+
 
 }
