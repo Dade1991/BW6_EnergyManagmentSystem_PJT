@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ProvinciaRepository extends JpaRepository<Provincia, Long> {
     Optional<Provincia> findBySigla(String sigla);
+    Optional<Provincia> findByNomeProvincia(String nomeProvincia);
 }
