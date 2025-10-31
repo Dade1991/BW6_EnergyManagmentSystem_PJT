@@ -43,7 +43,7 @@ public class StatoFatturaController {
 
     // POST http://localhost:3001/stati-fattura (+ payload)
 
-    @PostMapping("")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
     public StatoFatturaDTO saveStatoFattura(@RequestBody @Validated StatoFatturaDTO payload, BindingResult validation)

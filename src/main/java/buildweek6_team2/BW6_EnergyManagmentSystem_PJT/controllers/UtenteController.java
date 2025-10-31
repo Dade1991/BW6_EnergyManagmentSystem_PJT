@@ -29,7 +29,7 @@ public class UtenteController {
     }
     // PUT mio profilo
     @PutMapping("/me")
-    public Utente getMyProfileAndUpdate(@AuthenticationPrincipal Utente currentUtente, UtenteDTO bodyUtente){
+    public Utente getMyProfileAndUpdate(@AuthenticationPrincipal Utente currentUtente, @RequestBody UtenteDTO bodyUtente){
         return this.utentiService.findUtentiByIdAndUpdate(currentUtente.getUtenteId(), bodyUtente);
     }
     // PATCH dell'immagine profilo

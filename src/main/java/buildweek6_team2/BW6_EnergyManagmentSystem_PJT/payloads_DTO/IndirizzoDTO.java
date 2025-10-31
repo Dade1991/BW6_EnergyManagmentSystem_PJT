@@ -1,6 +1,7 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record IndirizzoDTO(
@@ -16,8 +17,14 @@ public record IndirizzoDTO(
         @Size(min = 2, max = 50, message = "La località deve essere tra 2 e 50 caratteri")
         String localita,
 
-        @NotBlank(message = "Il CAP è obbligatorio")
+        @NotNull(message = "Il cap non può essere nullo")
         @Size(min = 5, max = 5, message = "Il cap deve essere composto da 5 numeri")
-        Integer cap
+        int cap,
+
+        @NotNull(message = "L'ID dell'indirizzo non può essere nullo")
+        Long idIndirizzo,
+
+        @NotNull(message = "L'ID del comune non può essere nullo")
+        Long idComune
 ) {
 }

@@ -26,15 +26,15 @@ public class Utente implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long utenteId;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String username;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String password;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String nome;
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String cognome;
     @Column(name = "avatar_url", nullable = false, unique = true)
     private String avatarURL;
