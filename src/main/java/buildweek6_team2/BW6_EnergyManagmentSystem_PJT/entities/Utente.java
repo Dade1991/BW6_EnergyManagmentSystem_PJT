@@ -43,7 +43,6 @@ public class Utente implements UserDetails {
     @JoinTable(name = "utente_ruoli",
             joinColumns = @JoinColumn(name = "utenteId"),
             inverseJoinColumns = @JoinColumn(name = "ruoloId"))
-    @JsonManagedReference
     private List<Ruolo> ruolo = new ArrayList<>();
 
     public Utente(
