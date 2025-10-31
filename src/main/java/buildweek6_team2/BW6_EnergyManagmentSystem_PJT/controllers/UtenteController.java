@@ -5,6 +5,7 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.UtenteDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.services.UtentiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,7 @@ public class UtenteController {
     }
     // DELETE mio profilo
     @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMyProfile(@AuthenticationPrincipal Utente currentUtente){
         this.utentiService.findUtentiByIdAndDelete(currentUtente.getUtenteId());
     }
@@ -67,6 +69,7 @@ public class UtenteController {
     // DELETE utente
     @DeleteMapping("/{idUtente}")
     @PreAuthorize(("hasAuthority('ADMIN')"))
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void getUtenteByIdAndDelete(@PathVariable Long idUtente){
         this.utentiService.findUtentiByIdAndDelete(idUtente);
     }
