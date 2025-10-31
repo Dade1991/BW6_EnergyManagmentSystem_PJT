@@ -107,27 +107,12 @@ public class runnersCSV implements CommandLineRunner {
     }
 
     private Provincia trovaProvincia(String nomeProvincia) {
-        // Prova prima a cercare per sigla (molti comuni hanno la sigla nel campo provincia)
+        // Prova prima a cercare per sigla (se la stringa ha 2 caratteri)
         if (nomeProvincia.length() == 2) {
             return provinciaService.findBySigla(nomeProvincia).orElse(null);
         }
 
-        // Altrimenti cerca per nome completo
-        // Questo richiede una query personalizzata o iterazione
-        // Per ora cerchiamo per sigla che è il caso più comune
-        String siglaApprossimativa = estraiSigla(nomeProvincia);
-        return provinciaService.findBySigla(siglaApprossimativa).orElse(null);
-    }
-
-    private String estraiSigla(String nomeProvincia) {
-        // Conversione nome provincia -> sigla per i casi più comuni
-        Map<String, String> mappaProvincia = new HashMap<>();
-        mappaProvincia.put("Torino", "TO");
-        mappaProvincia.put("Milano", "MI");
-        mappaProvincia.put("Roma", "RM");
-        mappaProvincia.put("Napoli", "NA");
-        // Aggiungi altre mappature se necessario
-
-        return mappaProvincia.getOrDefault(nomeProvincia, nomeProvincia);
+        // Cerca per nome completo della provincia
+        return provinciaService.findByNome(nomeProvincia).orElse(null);
     }
 }
