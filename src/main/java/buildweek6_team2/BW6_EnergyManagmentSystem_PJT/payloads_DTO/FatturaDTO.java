@@ -15,6 +15,8 @@ public record FatturaDTO(
         @Size(min = 1, max = 12, message = "Il numero della fattura deve avere un minimo di 1 caratteri e un massimo di 12")
         String numero,
         @NotNull(message = "L'ID del cliente è obbligatorio per la fattura")
-        Long idCliente
+        Long idCliente,
+        @NotNull(message = "L'ID dello stato della fattura")
+        Long idStatoFattura
 ) {
 }

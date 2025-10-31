@@ -22,13 +22,13 @@ public class Indirizzo {
     private String via;
     private String civico;
     private String localita;
-    private int cap;
+    private String cap;
 
     @ManyToOne()
     @JoinColumn(name = "comune")
     private Comune comune;
 
-    public Indirizzo(String via, String civico, String localita, int cap, Comune comune) {
+    public Indirizzo(String via, String civico, String localita, String cap, Comune comune) {
         this.via = via;
         this.civico = civico;
         this.localita = localita;

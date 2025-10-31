@@ -1,6 +1,7 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +18,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    @Column(name = "id_cliente", updatable = false, nullable = false)
+    @Column(name = "id_cliente", updatable = false)
     private Long clienteId;
     @Column(name = "ragione_sociale")
     private String ragioneSociale;
@@ -52,6 +53,7 @@ public class Cliente {
     @JoinColumn(name = "indirizzoOperativo")
     private Indirizzo indirizzoOperativo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Fattura> fatture = new HashSet<>();
 

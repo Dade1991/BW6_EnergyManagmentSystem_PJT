@@ -29,14 +29,14 @@ public class FatturaController {
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "10") int size,
                                        @RequestParam(defaultValue = "clienteId") String sortBy,
-                                       @RequestParam(required = false) Cliente cliente,
-                                       @RequestParam(required = false) StatoFattura stato,
+                                       @RequestParam Long idCliente,
+                                       @RequestParam Long idStato,
                                        @RequestParam(required = false) LocalDate data,
                                        @RequestParam(required = false) Integer anno,
                                        @RequestParam(required = false) Double minImporto,
                                        @RequestParam(required = false) Double maxImporto) {
 
-        return fattureService.findAllFatture(page, size, sortBy, cliente, stato, data, anno, minImporto, maxImporto);
+        return fattureService.findAllFatture(page, size, sortBy, idCliente,idStato, data, anno, minImporto, maxImporto);
     }
 
     // GET http://localhost:3001/fatture/{idFattura}
@@ -60,18 +60,12 @@ public class FatturaController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public FatturaDTO saveFattura(@RequestBody @Validated FatturaDTO payload, BindingResult validation)
+    public Fattura saveFattura(@RequestBody @Validated FatturaDTO payload, BindingResult validation)
             throws Exception {
         if (validation.hasErrors()) {
             throw new ValidationException(validation.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
-        Fattura newFattura = fattureService.saveFattura(payload);
-        return new FatturaDTO(
-                newFattura.getData(),
-                newFattura.getImporto(),
-                newFattura.getNumero(),
-                newFattura.getCliente().getClienteId()
-        );
+        return this.fattureService.saveFattura(payload);
     }
 
     // DELETE http://localhost:3001/fatture/{id}

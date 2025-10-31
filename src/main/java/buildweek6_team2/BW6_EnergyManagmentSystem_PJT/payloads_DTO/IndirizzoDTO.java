@@ -17,12 +17,10 @@ public record IndirizzoDTO(
         @Size(min = 2, max = 50, message = "La località deve essere tra 2 e 50 caratteri")
         String localita,
 
-        @NotNull(message = "Il cap non può essere nullo")
+        @NotBlank(message = "Il cap è obbligatorio")
         @Size(min = 5, max = 5, message = "Il cap deve essere composto da 5 numeri")
-        int cap,
 
-        @NotNull(message = "L'ID dell'indirizzo non può essere nullo")
-        Long idIndirizzo,
+        String cap,
 
         @NotNull(message = "L'ID del comune non può essere nullo")
         Long idComune

@@ -1,5 +1,6 @@
 package buildweek6_team2.BW6_EnergyManagmentSystem_PJT.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class StatoFattura {
+    @JsonIgnore
     @OneToMany(mappedBy = "statoFattura")
     List<Fattura> listaFatture = new ArrayList<>();
     @Id

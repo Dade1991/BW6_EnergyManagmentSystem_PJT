@@ -34,11 +34,14 @@ public class FatturaService {
     // FIND ALL
 
     public Page<Fattura> findAllFatture(int numeroPagina, int dimensionePagina, String sortBy,
-                                        Cliente cliente, StatoFattura stato, LocalDate data,
+                                        Long idCliente, Long idStato, LocalDate data,
                                         Integer anno, Double minImporto, Double maxImporto) {
         if (dimensionePagina > 50) dimensionePagina = 50;
+
+        Cliente clienteFound = this.clientiService.trovaClientePerId(idCliente);
+        StatoFattura statoFound = this.statoFatturaService.findStatoFatturaById(idStato);
         Pageable pageable = PageRequest.of(numeroPagina, dimensionePagina, Sort.by(sortBy).ascending());
-        Specification<Fattura> specifica = SpecificheFattura.filtraPer(cliente, stato, data, anno, minImporto, maxImporto);
+        Specification<Fattura> specifica = SpecificheFattura.filtraPer(clienteFound, statoFound, data, anno, minImporto, maxImporto);
         return this.fatturaRepository.findAll(specifica, pageable);
     }
 
@@ -50,20 +53,20 @@ public class FatturaService {
         });
 
         Cliente found = this.clientiService.trovaClientePerId(payload.idCliente());
-
-        StatoFattura initialState = this.statoFatturaService.findStatoFatturaByStato("EMESSA");
+        StatoFattura statoFound = this.statoFatturaService.findStatoFatturaById(payload.idStatoFattura());
 
         Fattura newFattura = new Fattura(
                 payload.data(),
                 payload.importo(),
                 payload.numero(),
-                found
+                found,
+                statoFound
         );
 
         newFattura.setData(payload.data());
         newFattura.setImporto(payload.importo());
         newFattura.setNumero(payload.numero());
-        newFattura.setStatoFattura(initialState);
+
 
         Fattura savedFattura = this.fatturaRepository.save(newFattura);
 
