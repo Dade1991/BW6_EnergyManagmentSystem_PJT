@@ -7,6 +7,7 @@ import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.IdNotFoundExcep
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.exceptions.NotFoundException;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.payloads_DTO.ClienteDTO;
 import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.repositories.ClienteRepository;
+import buildweek6_team2.BW6_EnergyManagmentSystem_PJT.tools.MailgunSender;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List.*;
 
 @Service
 public class ClientiService {
@@ -28,6 +28,9 @@ public class ClientiService {
     private ClienteRepository clientiRepository;
     @Autowired
     private IndirizzoService indirizzoService;
+
+    @Autowired
+    private MailgunSender mailgunSender;
 
     private static Specification<Cliente> filtraPer(Double fatturatoAnnuale, LocalDate dataInserimento, LocalDate dataUltimoContatto, String nome) {
         return (root, query, criteriaBuilder) -> {
@@ -94,6 +97,9 @@ public class ClientiService {
         newCliente.setTipoCliente(payload.tipoCliente());
         newCliente.setIndirizzoLegale(indirizzo1Found);
         newCliente.setIndirizzoOperativo(indirizzo2Found);
+
+        //invio mail di avvenuta registrazione
+        mailgunSender.sendRegistrationEmail(newCliente);
 
         return this.clientiRepository.save(newCliente);
     }
